@@ -3,6 +3,8 @@ Streaming Data to Tocuh Designer from Python module for the Thalmic Labs Myo arm
 
 Cross platform and multithreaded and works without the Myo SDK. 
 
+![Toggle data stream in Touch Designer](https://github.com/smfrue/pyomyo/blob/main/media/getEMGdataViaUDP_toggle?raw=true "Touch Designer")
+
 Checkout the [main repo from PerlinWarp](https://github.com/PerlinWarp/pyomyo) for full instructions and current tutorials on how to use pyomyo. 
 
 How to send EMG data via UDP to TouchDesigner:
@@ -15,11 +17,10 @@ python3 myo_multithreading_examp.py
 3. Go into base1 and switch toggle to activate/deactive data stream
 4. Trail CHOP should visualize received data as a plot
 
-
-##What I changed:
+## What I changed:
 (I just explain the most important parts)
 
-###myo_multithreading_examp.py
+### myo_multithreading_examp.py
 ```
 import socket
 
@@ -48,7 +49,7 @@ try:
 			sock.sendto(msg_to_bytes(str_of_ints), (upd_ip, udp_port))
 ```
 
-###udppin1
+### udppin1
 <b>Tab Connect:</b>
 Port: 7000
 Row/Callback Format: One per Message
@@ -59,7 +60,7 @@ Maximum Lines: 1
 Clamp Output: ON
 
 
-###udppin1_callbacks
+### udppin1_callbacks
 ```
 #onReceive split each value by comma and put it in seperate cells of table1
 if rowIndex == 2:
