@@ -1,91 +1,76 @@
-# PyoMyo
-Python module for the Thalmic Labs Myo armband. 
+# PyoMyo with Touch Designer
+Streaming Data to Tocuh Designer from Python module for the Thalmic Labs Myo armband. 
 
 Cross platform and multithreaded and works without the Myo SDK. 
 
+Checkout the [main repo from PerlinWarp](https://github.com/PerlinWarp/pyomyo) for full instructions and current tutorials on how to use pyomyo. 
+
+How to send EMG data via UDP to TouchDesigner:
+
+1. Switch to the examples directory from pyomyo and run: 
 ```
-pip install pyomyo
+python3 myo_multithreading_examp.py
 ```
-Documentation is in the Wiki, see [Getting Started](https://github.com/PerlinWarp/pyomyo/wiki/Getting-started).
+2. Add "td-examples/getEMGdataViaUDP.tox" to your TD Scene
+3. Go into base1 and switch toggle to activate/deactive data stream
+4. Trail CHOP should visualize received data as a plot
 
-![Playing breakout with sEMG](https://github.com/PerlinWarp/Neuro-Breakout/blob/main/media/Breakout.gif?raw=true "Breakout")
 
-### PyoMyo Documentation
-[Home](https://github.com/PerlinWarp/pyomyo/wiki)  
-[Getting started](https://github.com/PerlinWarp/pyomyo/wiki/Getting-started)  
-[Common Problems](https://github.com/PerlinWarp/pyomyo/wiki/Common-Problems)  
-[Myo Placement](https://github.com/PerlinWarp/pyomyo/wiki/Myo-Placement)  
+##What I changed:
+(I just explain the most important parts)
 
-#### The big picture
-[Why should you care?](https://github.com/PerlinWarp/pyomyo/wiki/Why-should-you-care%3F)  
-[Basics of EMG Design](https://github.com/PerlinWarp/pyomyo/wiki/The-basics-of-EMG-design)  
-
-[Links to other resources](https://github.com/PerlinWarp/pyomyo/wiki/Links)  
-
-## Python Open-source Myo library
-
-This library was made from a fork of the MIT licensed [dhzu/myo-raw.](https://github.com/dzhu/myo-raw)
-Bug fixes from [Alvipe/myo-raw](https://github.com/Alvipe/myo-raw) were also added to stop crashes and also add essential features.  
-
-This code was then updated to Python3, multithreading support was added then more bug fixes and other features were added, including support for all 3 EMG modes the Myo can use.  
-
-**Note that sEMG data, the same kind gathered by the Myo is thought to be uniquely identifiable. Do not share this data without careful consideration of the future implications.**
-
-Also note, the Myo is outdated hardware, over the last year I have noticed a steady incline in the cost of second hand Myos. Both of my Myo's were bought for under £100, I do not recommend spending more than that to acquire one. Instead of buying one you should [join the discord](https://discord.com/invite/mG58PVyk83) to create an open hardware alternative!
-
-## Included Example Code
-The examples sub-folder contains some different ways of using the pyomyo library. 
+###myo_multithreading_examp.py
 ```
-git clone https://github.com/PerlinWarp/pyomyo
+import socket
+
+upd_ip          = "127.0.0.1"
+udp_port        = 7000
+sock            = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+def msg_to_bytes(msg):
+    return msg.encode('utf-8')
+```
+```
+try:
+	while True:
+		while not(q.empty()):
+			emg = list(q.get())
+			#print(emg)
+			
+			#convert each int of list to string
+			string_ints = [str(int) for int in emg]
+			
+			#add strings back to one line seperated by comma
+			str_of_ints = ",". join(string_ints)
+			print(msg_to_bytes(str_of_ints))
+			
+			#send encoded string as bytes to udp ip + port
+			sock.sendto(msg_to_bytes(str_of_ints), (upd_ip, udp_port))
 ```
 
+###udppin1
+<b>Tab Connect:</b>
+Port: 7000
+Row/Callback Format: One per Message
+Local Address: 127.0.0.1
 
-### plot_emgs_mat.py
-<p align="center">
-<img src="https://i.imgur.com/SDa9baf.gif" alt="Left to Right Wrist movements."/>
-</p>
-
-Starts the Myo in mode 0x01 which provides data that's already preprocessed (bandpass filter + rectified).  
-This data is then plotted in Matplotlib and is a good first step to see how the Myo works.  
-Sliding your finger under each sensor on the Myo will help identify which plot is for sensor.
-
-### dino_jump.py
-<p align="center">
-<img src="https://media3.giphy.com/media/7QPdXL6TRtA5Juvmnx/giphy.gif?cid=790b76118f3473e257d1da6173f7fe1fe114526dad4e0718&rid=giphy.gif&ct=g" alt="Chrome Dinosaur Game"/>
-</p>
-
-An example showing how to use the live classifier built into pyomyo, see [Getting Started](https://github.com/PerlinWarp/pyomyo/wiki/Getting-started) for more info.
-
-### myo_multithreading_examp.py
-Devs start here.  
-This file shows how to use the library and get Myo data in a seperate thread.
+<b>Tab Received Data:</b>
+Maximum Lines: 1
+Clamp Output: ON
 
 
-## Myo Modes Explained
-To communicate with the Myo, I used [dzhu's myo-raw](https://github.com/dzhu/myo-raw).
-Then added some functions from [Alvipe](https://github.com/dzhu/myo-raw/pull/23) to allow changing of the Myo's LED.
-
-emg_mode.PREPROCESSED (0x01)  
-By default myo-raw sends 50Hz data that has been rectified and filtered, using a hidden 0x01 mode.  
-
-emg_mode.FILTERED (0x02)  
-Alvipe added the ability to also get filtered non-rectified sEMG (thanks Alvipe).  
-
-emg_mode.RAW (0x03)   
-Then I further added the ability to get true raw non-filtered data at 200Hz.
-This data is unrectified but scales from -128 and 127.  
-
-Sample data and a comparison between data captured in these modes can be found in [MyoEMGPreprocessing.ipynb](https://github.com/PerlinWarp/Neuro-Breakout/blob/main/Notebooks/MyoModesCompared/MyoEMGPreprocessing.ipynb)
-
-## The library  
-
-### pyomyo.py
-Prints sEMG readings at 200Hz straight from the Myo's ADC using the raw EMG mode.   
-Each EMG readings is between -128 and 127, it is the most "raw" the Myo can provide, however it's unlikely to be useful without extra processing.
-This file is also where the Myo driver is implemented, which uses Serial commands which are then sent over Bluetooth to interact with the Myo.
-
-### Classifier.py
-Implements a live classifier using the k-nearest neighbors algorithm.  
-Press a number from 0-9 to label incoming data as the class represented by the number.  
-Press e to delete all the data you have gathered.  
-Once two classes have been made new data is automatically classified. Labelled data is stored as a numpy array in the ``data\`` directory.
+###udppin1_callbacks
+```
+#onReceive split each value by comma and put it in seperate cells of table1
+if rowIndex == 2:
+	value = message.split(',')
+	op('table1')[0,0] = value[0]
+	op('table1')[0,1] = value[1]
+	op('table1')[0,2] = value[2]
+	op('table1')[0,3] = value[3]
+	op('table1')[0,4] = value[4]
+	op('table1')[0,5] = value[5]
+	op('table1')[0,6] = value[6]
+	op('table1')[0,7] = value[7]
+	print(dat, rowIndex, message)
+```
