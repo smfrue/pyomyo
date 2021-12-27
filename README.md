@@ -1,5 +1,5 @@
 # PyoMyo with Touch Designer
-Streaming Data to Tocuh Designer from Python module for the Thalmic Labs Myo armband. 
+Streaming Data to Touch Designer from Python module for the Thalmic Labs Myo armband. 
 
 Cross platform and multithreaded and works without the Myo SDK. 
 
