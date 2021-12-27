@@ -3,7 +3,7 @@ Streaming Data to Tocuh Designer from Python module for the Thalmic Labs Myo arm
 
 Cross platform and multithreaded and works without the Myo SDK. 
 
-![Toggle data stream in Touch Designer](https://github.com/smfrue/pyomyo/blob/main/media/getEMGdataViaUDP_toggle?raw=true "Touch Designer")
+![Toggle data stream in Touch Designer](https://github.com/smfrue/pyomyo/blob/main/media/getEMGdataViaUDP_toggle.gif?raw=true "Touch Designer")
 
 Checkout the [main repo from PerlinWarp](https://github.com/PerlinWarp/pyomyo) for full instructions and current tutorials on how to use pyomyo. 
 
