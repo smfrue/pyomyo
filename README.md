@@ -49,7 +49,8 @@ try:
 			sock.sendto(msg_to_bytes(str_of_ints), (upd_ip, udp_port))
 ```
 
-### TouchDesigner
+### DAT UDP in TouchDesigner
 ![td_udp1_connect](https://github.com/smfrue/pyomyo/blob/main/media/td_udp1_connect.png?raw=true "Touch Designer td_udp1_connect")
-![td_udp1_callbacks](https://github.com/smfrue/pyomyo/blob/main/media/td_udp1_callbacks.png?raw=true "Touch Designer udp1_callbacks")
 ![td_udp1_received_data](https://github.com/smfrue/pyomyo/blob/main/media/td_udp1_received_data.png?raw=true "Touch Designer td_udp1_received_data")
+![td_udp1_callbacks](https://github.com/smfrue/pyomyo/blob/main/media/td_udp1_callbacks.png?raw=true "Touch Designer udp1_callbacks")
+
