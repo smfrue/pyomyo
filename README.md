@@ -1,4 +1,4 @@
-# PyoMyo with Touch Designer
+# How to use PyoMyo in Touch Designer
 Streaming Data to Touch Designer from Python module for the Thalmic Labs Myo armband. 
 
 Cross platform and multithreaded and works without the Myo SDK. 
@@ -7,7 +7,7 @@ Cross platform and multithreaded and works without the Myo SDK.
 
 Checkout the [main repo from PerlinWarp](https://github.com/PerlinWarp/pyomyo) for full instructions and current tutorials on how to use pyomyo. 
 
-How to send EMG data via UDP to TouchDesigner:
+### How to:
 
 1. Switch to the examples directory from pyomyo and run: 
 ```
