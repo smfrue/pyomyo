@@ -13,12 +13,12 @@ How to send EMG data via UDP to TouchDesigner:
 ```
 python3 myo_multithreading_examp.py
 ```
-2. Add td-examples/getEMGdataViaUDP.tox to your TD Scene
-3. Go into base1 and switch toggle to activate/deactive data stream
+2. Drag and drop td-examples/getEMGdataViaUDP.tox to your TD Scene
+3. Go into base1 and switch EMG toggle to activate/deactive data stream
 4. Trail CHOP should visualize received data as a plot
 
-## What I changed:
-I just show the important parts. Open getEMGdataViaUDP.tox to see the full setup.
+## What I changed
+I just show the important parts. Open getEMGdataViaUDP.tox and myo_multithreading_examp.py to see the full setup.
 
 ### myo_multithreading_examp.py
 ```
@@ -49,7 +49,7 @@ try:
 			sock.sendto(msg_to_bytes(str_of_ints), (upd_ip, udp_port))
 ```
 
-### DAT UDP in TouchDesigner
+### getEMGdataViaUDP.tox DAT UDP in TouchDesigner
 ![td_udp1_connect](https://github.com/smfrue/pyomyo/blob/main/media/td_udp1_connect.png?raw=true "Touch Designer td_udp1_connect")
 ![td_udp1_received_data](https://github.com/smfrue/pyomyo/blob/main/media/td_udp1_received_data.png?raw=true "Touch Designer td_udp1_received_data")
 ![td_udp1_callbacks](https://github.com/smfrue/pyomyo/blob/main/media/td_udp1_callbacks.png?raw=true "Touch Designer udp1_callbacks")
